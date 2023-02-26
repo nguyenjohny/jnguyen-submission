@@ -18,3 +18,12 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: facing
+                  type: varchar(255)
+              - column:
+                  name: x
+                  type: int
+              - column:
+                  name: y
+                  type: int

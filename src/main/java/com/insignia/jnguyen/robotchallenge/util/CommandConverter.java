@@ -4,6 +4,7 @@ import com.insignia.jnguyen.robotchallenge.dto.Action;
 import com.insignia.jnguyen.robotchallenge.model.CommandEvent;
 import com.insignia.jnguyen.robotchallenge.model.Facing;
 import com.insignia.jnguyen.robotchallenge.model.Position;
+import com.insignia.jnguyen.robotchallenge.model.Robot;
 import org.springframework.core.convert.converter.Converter;
 
 public class CommandConverter implements Converter<String, CommandEvent> {
@@ -13,8 +14,9 @@ public class CommandConverter implements Converter<String, CommandEvent> {
         var command = Action.valueOf(tokens[0]);
 
         var builder = CommandEvent.builder().action(Action.valueOf(tokens[0]));
-        if (Action.PLACE.equals(command)) {
-            builder.position(extractPosition(tokens[1]));
+        switch (command) {
+            case PLACE -> builder.robot(Robot.builder().position(extractPosition(tokens[1])).build());
+            case ROBOT -> builder.robot(Robot.builder().id(Long.valueOf(tokens[1])).build());
         }
         return builder.build();
     }

@@ -1,15 +1,16 @@
 package com.insignia.jnguyen.robotchallenge.service;
 
-import com.insignia.jnguyen.robotchallenge.dto.Action;
+import com.insignia.jnguyen.robotchallenge.model.Board;
 import com.insignia.jnguyen.robotchallenge.model.CommandEvent;
 import com.insignia.jnguyen.robotchallenge.model.Facing;
 import com.insignia.jnguyen.robotchallenge.model.Position;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Stack;
 
 import static com.insignia.jnguyen.robotchallenge.model.Facing.*;
 
@@ -21,23 +22,17 @@ public class Navigator {
     private static final EnumSet<Facing> X_FACING_REFERENCE = EnumSet.of(WEST, EAST);
     private static final EnumSet<Facing> Y_FACING_REFERENCE = EnumSet.of(NORTH, SOUTH);
 
-    @Value("${table.width:5}")
-    int width;
+    private final Publisher publisher;
+    private final Board board;
 
-    @Value("${table.height:5}")
-    int height;
+    public List<Position> calculate(List<CommandEvent> commandEvents) {
 
-    public List<Position> makeRoute(List<CommandEvent> commandEvents) {
+        publisher.report(commandEvents);
 
         var route = new Stack<Position>();
         for (var event : commandEvents) {
             var next = switch(event.getAction()) {
-                case PLACE -> {
-                    if (!checkPosition(event.getPosition().getX(), event.getPosition().getY())) {
-                        yield null;
-                    }
-                    yield event.getPosition();
-                }
+                case PLACE, ROBOT -> null; // extension place will now not relocate the active robot but create a new one instead.
                 case LEFT -> {
                     if (route.empty()) {
                         yield null;
@@ -65,7 +60,7 @@ public class Navigator {
                     yield Position.builder().x(x).y(y).facing(current.getFacing()).build();
                 }
                 case REPORT -> {
-                    log.info("{}", route.peek());
+                    publisher.report(event.getRobot());
                     yield null;
                 }
             };
@@ -97,7 +92,7 @@ public class Navigator {
     }
     public boolean checkPosition(int x, int y) {
         // the origin (0,0) can be considered to be the SOUTH WEST most corner.
-        if (x < 0 || x >= width || y < 0 || y >= height) {
+        if (x < 0 || x > board.width() || y < 0 || y > board.height()) {
             log.warn("Navigated beyond the boundaries of the site!");
             return false;
         }

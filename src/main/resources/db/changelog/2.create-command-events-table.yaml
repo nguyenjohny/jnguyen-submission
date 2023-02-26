@@ -19,14 +19,5 @@ databaseChangeLog:
                   constraints:
                     nullable: true
               - column:
-                  name: facing
-                  type: varchar(255)
-              - column:
-                  name: x
-                  type: int
-              - column:
-                  name: y
-                  type: int
-              - column:
                   name: robot_id
                   type: bigint

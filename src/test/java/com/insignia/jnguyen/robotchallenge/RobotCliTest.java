@@ -1,6 +1,6 @@
 package com.insignia.jnguyen.robotchallenge;
 
-import com.insignia.jnguyen.robotchallenge.service.Tasker;
+import com.insignia.jnguyen.robotchallenge.service.Simulation;
 import com.insignia.jnguyen.robotchallenge.util.FileReader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,14 +19,14 @@ class RobotCliTest {
     @Mock
     FileReader fileReader;
     @Mock
-    Tasker tasker;
+    Simulation simulation;
 
     @Captor
     ArgumentCaptor<String> inputFilePathCaptor;
 
     @Test
     public void shouldPassApplicationPropertyInputFilePath() throws Exception {
-        var robotCli = new RobotCli(tasker, fileReader);
+        var robotCli = new RobotCli(simulation, fileReader);
         ReflectionTestUtils.setField(robotCli, "inputFile", TEST_FILE_PATH);
         robotCli.run("--inputFile=" + TEST_FILE_PATH);
 

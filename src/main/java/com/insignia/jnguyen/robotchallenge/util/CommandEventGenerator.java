@@ -1,13 +1,14 @@
 package com.insignia.jnguyen.robotchallenge.util;
 
 import com.insignia.jnguyen.robotchallenge.model.CommandEvent;
+import com.insignia.jnguyen.robotchallenge.model.Robot;
 
 import static com.insignia.jnguyen.robotchallenge.dto.Action.*;
 
 public class CommandEventGenerator {
     public static CommandEvent generatePlacement(String placement) {
         var position = CommandConverter.extractPosition(placement);
-        return CommandEvent.builder().action(PLACE).position(position).build();
+        return CommandEvent.builder().action(PLACE).robot(Robot.builder().position(position).build()).build();
     }
 
     public static CommandEvent generateMove() {

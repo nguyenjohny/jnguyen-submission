@@ -1,6 +1,6 @@
 package com.insignia.jnguyen.robotchallenge;
 
-import com.insignia.jnguyen.robotchallenge.service.Tasker;
+import com.insignia.jnguyen.robotchallenge.service.Simulation;
 import com.insignia.jnguyen.robotchallenge.util.FileReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class RobotCli implements CommandLineRunner {
     public static final String COMMANDS_PATH_DEFAULT = "commands.txt";
     public static final String COMMANDS_PATH_KEY = "inputFile";
 
-    private final Tasker tasker;
+    private final Simulation simulation;
     private final FileReader fileReader;
 
     @Value("${inputFile:" + COMMANDS_PATH_DEFAULT + "}")
@@ -33,6 +33,6 @@ public class RobotCli implements CommandLineRunner {
 
         // unsure if this is a good decision or not but at this time I rather use the application-property than args
         log.info("Loading commands from './{}'", inputFile);
-        tasker.runSimulator(fileReader.read(inputFile));
+        simulation.runSimulator(fileReader.read(inputFile));
     }
 }

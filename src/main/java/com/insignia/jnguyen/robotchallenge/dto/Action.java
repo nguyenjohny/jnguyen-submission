@@ -5,5 +5,6 @@ public enum Action {
     MOVE,
     LEFT,
     RIGHT,
-    REPORT
+    REPORT,
+    ROBOT
 }
