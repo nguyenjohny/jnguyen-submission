@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: jnguyen
+      changes:
+        - createTable:
+            tableName: command_event
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: action
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: facing
+                  type: varchar(255)
+              - column:
+                  name: x
+                  type: int
+              - column:
+                  name: y
+                  type: int
+              - column:
+                  name: robot_id
+                  type: bigint

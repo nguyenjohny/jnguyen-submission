@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - include:
+      file: /db/changelog/1.create-robot-table.yaml
+
+  - include:
+      file: /db/changelog/2.create-command-events-table.yaml
