@@ -67,10 +67,11 @@ class SimulationTest {
 
     @Test
     void shouldCreatedRobotIdOnValidPlacements() {
+        var currentIndex = robotRepository.getMaxRobotId();
         var result = simulation.createRobots(Arrays.asList(generateRandomValidPlacement(), generateRandomInvalidPlacement(), generateRandomValidPlacement()));
         assertEquals(2, result.size());
-        assertTrue(result.containsKey(1L));
-        assertTrue(result.containsKey(2L));
+        assertTrue(result.containsKey(++currentIndex));
+        assertTrue(result.containsKey(++currentIndex));
     }
 
     private CommandEvent generateRandomValidPlacement() {
